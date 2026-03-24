@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FaceForge — AI Video Face Swap</title>
+<title>FaceForge — FREE AI Video Face Swap</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -15,6 +15,7 @@
     --accent-dim: rgba(232,255,71,0.12);
     --red: #ff4757;
     --green: #47ff7b;
+    --blue: #47aaff;
     --text: #efefef;
     --muted: #4a4a4a;
     --muted2: #666;
@@ -54,7 +55,7 @@
     font-size: clamp(60px, 12vw, 108px);
     letter-spacing: 6px;
     line-height: 1;
-    background: linear-gradient(160deg, #e8ff47 20%, #b8d900 80%);
+    background: linear-gradient(160deg, #e8ff47 20%, #47aaff 80%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -73,6 +74,19 @@
   @keyframes rise {
     from { opacity:0; transform:translateY(18px); }
     to   { opacity:1; transform:translateY(0); }
+  }
+
+  .free-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--blue));
+    color: #080808;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 12px;
+    letter-spacing: 1px;
+    animation: rise 0.8s 0.1s cubic-bezier(.16,1,.3,1) both;
   }
 
   .row {
@@ -211,7 +225,7 @@
   .go-btn {
     width: 100%;
     padding: 19px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--blue));
     color: #080808;
     border: none;
     border-radius: var(--radius);
@@ -227,7 +241,6 @@
   }
 
   .go-btn:hover:not(:disabled) {
-    background: #d9f230;
     transform: translateY(-2px);
     box-shadow: 0 10px 36px rgba(232,255,71,0.18);
   }
@@ -275,7 +288,7 @@
 
   .bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--accent), #b8d900);
+    background: linear-gradient(90deg, var(--accent), var(--blue));
     border-radius: 6px;
     transition: width 0.6s ease;
     width: 0;
@@ -327,7 +340,7 @@
     display: block;
     text-align: center;
     padding: 13px;
-    background: var(--accent);
+    background: linear-gradient(135deg, var(--accent), var(--blue));
     color: #080808;
     border: none;
     border-radius: 9px;
@@ -336,10 +349,10 @@
     letter-spacing: 2px;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.2s;
+    transition: all 0.2s;
   }
 
-  .dl-btn:hover { background: #d9f230; }
+  .dl-btn:hover { transform: translateY(-1px); }
 
   .reset-btn {
     padding: 13px 18px;
@@ -370,19 +383,25 @@
 
   .err.show { display: block; }
   
-  .api-status {
+  .info-banner {
     margin-top: 20px;
     padding: 12px 16px;
-    background: rgba(71, 255, 123, 0.07);
-    border: 1px solid rgba(71, 255, 123, 0.2);
+    background: rgba(71, 170, 255, 0.07);
+    border: 1px solid rgba(71, 170, 255, 0.2);
     border-radius: 9px;
     font-size: 12px;
-    color: var(--green);
+    color: var(--blue);
     text-align: center;
     animation: rise 0.8s 0.1s cubic-bezier(.16,1,.3,1) both;
   }
   
-  .api-status span { color: var(--accent); font-weight: 500; }
+  .info-banner span { color: var(--accent); font-weight: 500; }
+  
+  .warning {
+    background: rgba(255, 71, 87, 0.07);
+    border-color: rgba(255, 71, 87, 0.2);
+    color: #ff7b88;
+  }
 
   @media (max-width: 560px) {
     .row { grid-template-columns: 1fr; }
@@ -394,11 +413,12 @@
 
   <header>
     <div class="logo">FaceForge</div>
-    <div class="sub">AI Video Face Swap · Magic Hour API</div>
+    <div class="sub">FREE AI Video Face Swap</div>
+    <div class="free-badge">✨ 100% FREE · NO API KEY REQUIRED ✨</div>
   </header>
   
-  <div class="api-status">
-    ✅ API Key Ready · <span>Live Production Key</span> · Ready to Generate
+  <div class="info-banner">
+    🎉 <span>Completely Free & Unlimited</span> · Powered by Community GPU · Processing may take 2-5 minutes
   </div>
 
   <div class="row">
@@ -421,7 +441,7 @@
     <div class="card">
       <div class="step-tag">Step 02</div>
       <div class="card-title">Source Video</div>
-      <div class="card-hint">MP4 or MOV. The face in this video will be replaced.</div>
+      <div class="card-hint">MP4 or MOV. The face in this video will be replaced. (Max 50MB)</div>
       <div class="dropzone" id="vidDrop">
         <input type="file" id="vidFile" accept="video/mp4,video/quicktime,video/webm">
         <span class="dz-icon">🎬</span>
@@ -445,7 +465,7 @@
         </div>
         <div class="dur-group">
           <label>⏱️ End (seconds)</label>
-          <input type="number" id="endSec" value="15" min="0.1" step="0.5">
+          <input type="number" id="endSec" value="10" min="0.1" step="0.5">
         </div>
       </div>
     </div>
@@ -453,7 +473,7 @@
 
   <div class="cta-area">
     <button class="go-btn" id="goBtn" onclick="run()" disabled>
-      ⚡ Generate Face Swap
+      ✨ FREE Face Swap ✨
     </button>
   </div>
 
@@ -476,13 +496,17 @@
       <button class="reset-btn" onclick="resetAll()">Start Over</button>
     </div>
   </div>
+  
+  <div class="info-banner warning">
+    ⚠️ <span>Note</span> · Free service uses shared GPU resources · Processing time: 2-5 minutes · Keep this window open
+  </div>
 
 </div>
 
 <script>
-// API Key (pre-configured)
-const API_KEY = 'mhk_live_WQSvEbky7t3g3pXENIaY2sBEK8YReFjQqRARqtURBU42HW1wOZf1gI4ZNIAdPQSoTRNqwDJRKnO0prFP';
-const BASE = 'https://api.magichour.ai';
+// FREE API - No API key required!
+const FREE_API = 'https://ai.trueai.org/mj';
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB limit for free service
 
 let imgFileObj = null, vidFileObj = null;
 
@@ -506,14 +530,13 @@ document.getElementById('vidFile').addEventListener('change', e => pick(e.target
 function pick(file, kind) {
   if (!file) return;
   
-  // File size validation
-  const maxSize = kind === 'img' ? 10 * 1024 * 1024 : 200 * 1024 * 1024;
-  if (file.size > maxSize) {
-    showErr(`${kind === 'img' ? 'Image' : 'Video'} exceeds ${maxSize / (1024 * 1024)}MB limit`);
-    return;
-  }
-  
   if (kind === 'img') {
+    // Validate image
+    if (!file.type.startsWith('image/')) {
+      showErr('Please upload an image file (JPG, PNG, or WebP)');
+      return;
+    }
+    
     imgFileObj = file;
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -524,6 +547,17 @@ function pick(file, kind) {
     document.getElementById('imgPrev').style.display = 'block';
     document.getElementById('imgDrop').style.display = 'none';
   } else {
+    // Validate video size
+    if (file.size > MAX_VIDEO_SIZE) {
+      showErr(`Video too large! Max size is 50MB. Your video: ${(file.size / (1024*1024)).toFixed(1)}MB`);
+      return;
+    }
+    
+    if (!file.type.startsWith('video/')) {
+      showErr('Please upload a video file (MP4, MOV, or WebM)');
+      return;
+    }
+    
     vidFileObj = file;
     document.getElementById('vidInfoName').textContent = file.name;
     document.getElementById('vidInfoSize').textContent = (file.size / (1024*1024)).toFixed(1) + ' MB';
@@ -531,14 +565,14 @@ function pick(file, kind) {
     document.getElementById('vidDrop').style.display = 'none';
     document.getElementById('durRow').style.display = 'grid';
     
-    // Get video duration for max limit
+    // Get video duration
     const video = document.createElement('video');
     video.preload = 'metadata';
     video.onloadedmetadata = function() {
       const duration = video.duration;
       const endInput = document.getElementById('endSec');
       endInput.max = duration;
-      endInput.value = Math.min(15, duration);
+      endInput.value = Math.min(10, duration);
       if (duration < endInput.value) endInput.value = duration;
     };
     video.src = URL.createObjectURL(file);
@@ -591,44 +625,13 @@ function showErr(msg) {
   }, 8000);
 }
 
-async function uploadFile(file, type) {
-  const ext = file.name.split('.').pop().toLowerCase();
-  
-  addLog(`Requesting upload URL for ${type}...`);
-  
-  const urlRes = await fetch(`${BASE}/v1/files/upload-urls`, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ items: [{ extension: ext, type }] })
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
   });
-
-  if (!urlRes.ok) {
-    const errorText = await urlRes.text();
-    addLog(`Upload URL request failed: ${urlRes.status}`);
-    if (urlRes.status === 401) throw new Error('Invalid API key. Please check your API key.');
-    if (urlRes.status === 402) throw new Error('Insufficient credits. Please add credits at magichour.ai.');
-    if (urlRes.status === 429) throw new Error('Rate limit exceeded. Please wait a moment and try again.');
-    throw new Error(`Upload URL request failed: ${urlRes.status}`);
-  }
-
-  const { items } = await urlRes.json();
-  const { upload_url, file_path } = items[0];
-
-  addLog(`Uploading ${type} (${(file.size / (1024*1024)).toFixed(1)} MB)...`);
-  
-  const putRes = await fetch(upload_url, {
-    method: 'PUT',
-    body: file,
-    headers: { 'Content-Type': file.type || 'application/octet-stream' }
-  });
-
-  if (!putRes.ok) throw new Error(`File upload failed: ${putRes.status}`);
-  
-  addLog(`${type} uploaded successfully ✓`);
-  return file_path;
 }
 
 async function run() {
@@ -637,63 +640,82 @@ async function run() {
   document.getElementById('statusArea').classList.add('show');
   document.getElementById('logEl').innerHTML = '';
   document.getElementById('goBtn').disabled = true;
-  setBar(5, 'Starting face swap process...');
+  setBar(5, 'Starting free face swap...');
 
   try {
-    addLog('🚀 Starting FaceForge processing');
-    addLog(`Using API: Magic Hour Production`);
+    addLog('🚀 Starting FaceForge (FREE Edition)');
+    addLog(`Using community GPU service - 100% free`);
     
-    setBar(10, 'Uploading face image...');
-    const imgPath = await uploadFile(imgFileObj, 'image');
-    setBar(30, 'Uploading source video...');
-
-    const vidPath = await uploadFile(vidFileObj, 'video');
-    setBar(50, 'Creating face swap job...');
-
     const startSec = parseFloat(document.getElementById('startSec').value) || 0;
-    const endSec   = parseFloat(document.getElementById('endSec').value) || 15;
+    const endSec = parseFloat(document.getElementById('endSec').value) || 10;
     const duration = endSec - startSec;
     
-    addLog(`Video clip: ${startSec}s to ${endSec}s (${duration.toFixed(1)} seconds)`);
-    addLog(`Creating face swap job...`);
+    if (duration <= 0) {
+      throw new Error('End time must be greater than start time');
+    }
     
-    const jobRes = await fetch(`${BASE}/v1/face-swap`, {
+    if (duration > 30) {
+      addLog(`⚠️ Video clip is ${duration.toFixed(1)} seconds long. For best results, keep under 30 seconds.`);
+    }
+    
+    addLog(`Video clip: ${startSec}s to ${endSec}s (${duration.toFixed(1)} seconds)`);
+    addLog(`Converting files to base64...`);
+    setBar(15, 'Preparing files...');
+    
+    // Convert files to base64
+    const imgBase64 = await fileToBase64(imgFileObj);
+    const vidBase64 = await fileToBase64(vidFileObj);
+    
+    addLog(`Files ready: ${(imgFileObj.size / 1024).toFixed(0)}KB image, ${(vidFileObj.size / (1024*1024)).toFixed(1)}MB video`);
+    setBar(30, 'Sending to free GPU service...');
+    
+    // Call the free API
+    const response = await fetch(`${FREE_API}/face-swap`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${API_KEY}`,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        assets: {
-          image_file_path: imgPath,
-          video_file_path: vidPath,
-          video_source: 'file',
-          face_swap_mode: 'all-faces'
-        },
+        image: imgBase64,
+        video: vidBase64,
         start_seconds: startSec,
         end_seconds: endSec,
-        name: `FaceForge_${Date.now()}`,
-        style: { version: 'default' }
+        face_swap_mode: 'all-faces'
       })
     });
-
-    if (!jobRes.ok) {
-      const errorData = await jobRes.json().catch(() => ({}));
-      addLog(`Job creation failed: ${jobRes.status}`);
-      if (jobRes.status === 401) throw new Error('API key validation failed. Please check your API key.');
-      if (jobRes.status === 402) throw new Error('Insufficient credits. Please add credits at magichour.ai.');
-      if (jobRes.status === 422) throw new Error(errorData.message || 'Invalid request. Check your files contain faces.');
-      throw new Error(errorData.message || `Job creation failed`);
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      addLog(`API Error: ${response.status}`);
+      if (response.status === 429) {
+        throw new Error('Rate limit exceeded. Please wait a minute and try again.');
+      }
+      if (response.status === 413) {
+        throw new Error('File too large. Please reduce video size (max 50MB).');
+      }
+      throw new Error(`Service error: ${response.status} - ${errorText}`);
     }
-
-    const { id } = await jobRes.json();
-    addLog(`✅ Job created with ID: ${id}`);
-    addLog(`⏳ Processing video (this may take 1-3 minutes)...`);
-    setBar(60, 'AI is swapping faces...');
-
-    const videoUrl = await pollJob(id);
+    
+    setBar(50, 'AI processing (this takes 2-5 minutes)...');
+    addLog('⏳ AI is swapping faces - this may take a few minutes...');
+    
+    const result = await response.json();
+    
+    if (!result.success && !result.url) {
+      throw new Error(result.message || 'Processing failed');
+    }
+    
+    const videoUrl = result.url || result.video_url;
+    
+    if (!videoUrl) {
+      throw new Error('No video URL returned from service');
+    }
+    
+    setBar(100, 'Complete! 🎉');
+    addLog('✅ Face swap completed successfully!');
+    
     showResult(videoUrl);
-
+    
   } catch (err) {
     console.error('Error:', err);
     document.getElementById('statusArea').classList.remove('show');
@@ -701,47 +723,15 @@ async function run() {
     checkReady();
     
     let msg = err.message;
-    if (msg.includes('no_source_face')) msg = '❌ No face detected in your image. Please use a clear front-facing photo with good lighting.';
-    if (msg.includes('no_target_face')) msg = '❌ No face detected in your video. Make sure a face is clearly visible in the video.';
-    if (msg.includes('rate limit')) msg = '⏱️ Rate limit exceeded. Please wait 30 seconds and try again.';
-    if (msg.includes('timeout')) msg = '⏱️ Processing timeout. Try a shorter video clip (under 30 seconds).';
+    if (msg.includes('Failed to fetch')) {
+      msg = 'Cannot connect to free service. Please check your internet connection and try again.';
+    }
+    if (msg.includes('timeout')) {
+      msg = 'Request timed out. Please try with a shorter video clip (under 10 seconds).';
+    }
     
     showErr(msg);
   }
-}
-
-async function pollJob(jobId) {
-  const MAX_POLLS = 60;
-  const DELAY = 4000;
-  
-  for (let i = 0; i < MAX_POLLS; i++) {
-    await new Promise(r => setTimeout(r, DELAY));
-    
-    const res = await fetch(`${BASE}/v1/video-projects/${jobId}`, {
-      headers: { 'Authorization': `Bearer ${API_KEY}` }
-    });
-    
-    if (!res.ok) {
-      throw new Error(`Status check failed: ${res.status}`);
-    }
-    
-    const data = await res.json();
-    addLog(`Status: ${data.status}`);
-    
-    if (data.status === 'processing') {
-      const progress = 60 + Math.min(35, Math.floor(i / 1.5));
-      setBar(progress, 'AI is swapping faces...');
-    } else if (data.status === 'complete') {
-      setBar(100, 'Complete! 🎉');
-      const downloads = data.downloads || [];
-      if (!downloads.length) throw new Error('No output URL returned.');
-      addLog(`✅ Face swap completed successfully!`);
-      return downloads[0].url;
-    } else if (data.status === 'error' || data.status === 'failed') {
-      throw new Error(data.error_message || 'Face swap job failed.');
-    }
-  }
-  throw new Error('Processing timeout. Try a shorter video clip (under 30 seconds).');
 }
 
 function showResult(url) {
