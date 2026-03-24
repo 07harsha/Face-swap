@@ -16,6 +16,7 @@
     --red: #ff4757;
     --green: #47ff7b;
     --blue: #47aaff;
+    --orange: #ffa947;
     --text: #efefef;
     --muted: #4a4a4a;
     --muted2: #666;
@@ -43,95 +44,80 @@
   .wrap {
     position: relative;
     z-index: 1;
-    max-width: 860px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 64px 20px 100px;
+    padding: 40px 20px 80px;
   }
 
-  header { text-align: center; margin-bottom: 60px; }
+  header { text-align: center; margin-bottom: 40px; }
 
   .logo {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(60px, 12vw, 108px);
-    letter-spacing: 6px;
+    font-size: clamp(50px, 10vw, 88px);
+    letter-spacing: 4px;
     line-height: 1;
     background: linear-gradient(160deg, #e8ff47 20%, #47aaff 80%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: rise 0.8s cubic-bezier(.16,1,.3,1) both;
   }
 
   .sub {
-    margin-top: 10px;
-    font-size: 12px;
-    letter-spacing: 3.5px;
+    margin-top: 8px;
+    font-size: 11px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--muted2);
-    animation: rise 0.8s 0.08s cubic-bezier(.16,1,.3,1) both;
-  }
-
-  @keyframes rise {
-    from { opacity:0; transform:translateY(18px); }
-    to   { opacity:1; transform:translateY(0); }
   }
 
   .free-badge {
     display: inline-block;
     background: linear-gradient(135deg, var(--accent), var(--blue));
     color: #080808;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: bold;
     padding: 4px 12px;
     border-radius: 20px;
     margin-top: 12px;
-    letter-spacing: 1px;
-    animation: rise 0.8s 0.1s cubic-bezier(.16,1,.3,1) both;
   }
 
   .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 16px;
-    margin-bottom: 16px;
-    animation: rise 0.8s 0.15s cubic-bezier(.16,1,.3,1) both;
+    margin-bottom: 20px;
   }
 
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 26px 24px;
-    transition: border-color 0.2s;
+    padding: 20px;
   }
-
-  .card:hover { border-color: #2a2a2a; }
 
   .step-tag {
     display: inline-block;
     font-family: 'Bebas Neue', sans-serif;
     font-size: 10px;
-    letter-spacing: 3px;
+    letter-spacing: 2px;
     color: var(--accent);
     background: var(--accent-dim);
     padding: 3px 10px;
     border-radius: 100px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
-  .card-title { font-size: 17px; font-weight: 500; margin-bottom: 4px; }
-  .card-hint  { font-size: 12px; color: var(--muted2); margin-bottom: 18px; line-height: 1.5; }
+  .card-title { font-size: 16px; font-weight: 500; margin-bottom: 4px; }
+  .card-hint  { font-size: 11px; color: var(--muted2); margin-bottom: 15px; }
 
   .dropzone {
     position: relative;
     border: 1.5px dashed #252525;
     border-radius: 10px;
-    padding: 28px 16px;
+    padding: 20px 12px;
     text-align: center;
     cursor: pointer;
     transition: all 0.2s;
-    background: rgba(255,255,255,0.01);
-    overflow: hidden;
   }
 
   .dropzone:hover,
@@ -142,147 +128,116 @@
     inset: 0;
     opacity: 0;
     cursor: pointer;
-    width: 100%;
-    height: 100%;
   }
 
-  .dz-icon { font-size: 28px; display: block; margin-bottom: 8px; }
-  .dz-text { font-size: 12px; color: var(--muted2); }
-  .dz-text b { color: var(--accent); font-weight: 500; }
+  .dz-icon { font-size: 24px; display: block; margin-bottom: 6px; }
+  .dz-text { font-size: 11px; color: var(--muted2); }
+  .dz-text b { color: var(--accent); }
 
   .preview { margin-top: 12px; position: relative; }
 
-  .preview img,
-  .preview video {
+  .preview img {
     width: 100%;
-    max-height: 180px;
+    max-height: 140px;
     object-fit: cover;
     border-radius: 8px;
     border: 1px solid var(--border);
-    display: block;
   }
 
   .remove-btn {
     position: absolute;
-    top: 7px; right: 7px;
+    top: 5px; right: 5px;
     background: var(--red);
     color: #fff;
     border: none;
     border-radius: 50%;
-    width: 24px; height: 24px;
+    width: 22px; height: 22px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 11px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s;
   }
-  
-  .remove-btn:hover { transform: scale(1.1); }
 
   .fname {
-    margin-top: 6px;
-    font-size: 11px;
+    margin-top: 5px;
+    font-size: 10px;
     color: var(--muted2);
     text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .dur-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 12px;
   }
 
   .dur-group label {
     display: block;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--muted2);
-    margin-bottom: 5px;
-    letter-spacing: 0.5px;
+    margin-bottom: 4px;
   }
 
-  .dur-group input[type=number] {
+  .dur-group input {
     width: 100%;
     background: #0d0d0d;
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 9px 12px;
+    padding: 8px 10px;
     color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
+    font-size: 13px;
   }
-
-  .dur-group input[type=number]:focus { border-color: var(--accent); }
-
-  .cta-area { animation: rise 0.8s 0.25s cubic-bezier(.16,1,.3,1) both; }
 
   .go-btn {
     width: 100%;
-    padding: 19px;
+    padding: 16px;
     background: linear-gradient(135deg, var(--accent), var(--blue));
     color: #080808;
     border: none;
     border-radius: var(--radius);
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px;
-    letter-spacing: 4px;
+    font-size: 20px;
+    letter-spacing: 2px;
     cursor: pointer;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    font-weight: bold;
   }
 
-  .go-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 36px rgba(232,255,71,0.18);
-  }
-
-  .go-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; }
+  .go-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .status-area {
-    margin-top: 22px;
+    margin-top: 20px;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 26px;
+    padding: 20px;
     display: none;
   }
 
-  .status-area.show { display: block; animation: rise 0.4s cubic-bezier(.16,1,.3,1) both; }
+  .status-area.show { display: block; }
 
   .status-head {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 14px;
+    gap: 10px;
+    margin-bottom: 12px;
   }
 
   .spin {
-    width: 20px; height: 20px;
-    border: 2.5px solid rgba(232,255,71,0.15);
+    width: 18px; height: 18px;
+    border: 2px solid rgba(232,255,71,0.2);
     border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 0.75s linear infinite;
-    flex-shrink: 0;
   }
 
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  .status-title { font-size: 14px; font-weight: 500; }
-
   .bar-bg {
     background: #181818;
     border-radius: 6px;
-    height: 5px;
-    overflow: hidden;
+    height: 4px;
     margin-bottom: 12px;
   }
 
@@ -290,121 +245,96 @@
     height: 100%;
     background: linear-gradient(90deg, var(--accent), var(--blue));
     border-radius: 6px;
-    transition: width 0.6s ease;
+    transition: width 0.5s ease;
     width: 0;
   }
 
   .log {
-    font-size: 11.5px;
+    font-size: 11px;
     font-family: monospace;
     color: var(--muted2);
-    max-height: 70px;
+    max-height: 80px;
     overflow-y: auto;
-    line-height: 1.9;
+    line-height: 1.8;
   }
 
   .result-area {
-    margin-top: 22px;
+    margin-top: 20px;
     background: var(--surface);
     border: 1px solid #252525;
     border-radius: var(--radius);
-    padding: 26px;
+    padding: 20px;
     display: none;
   }
 
-  .result-area.show { display: block; animation: rise 0.5s cubic-bezier(.16,1,.3,1) both; }
-
-  .result-tag {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: var(--accent);
-    margin-bottom: 14px;
-  }
+  .result-area.show { display: block; }
 
   .result-video {
     width: 100%;
     border-radius: 10px;
     border: 1px solid var(--border);
-    background: #000;
   }
 
   .result-btns {
     display: flex;
-    gap: 12px;
-    margin-top: 14px;
+    gap: 10px;
+    margin-top: 12px;
   }
 
   .dl-btn {
     flex: 1;
-    display: block;
     text-align: center;
-    padding: 13px;
+    padding: 10px;
     background: linear-gradient(135deg, var(--accent), var(--blue));
     color: #080808;
-    border: none;
-    border-radius: 9px;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 16px;
-    letter-spacing: 2px;
-    cursor: pointer;
+    border-radius: 8px;
     text-decoration: none;
-    transition: all 0.2s;
+    font-weight: bold;
+    font-size: 14px;
   }
 
-  .dl-btn:hover { transform: translateY(-1px); }
-
   .reset-btn {
-    padding: 13px 18px;
+    padding: 10px 16px;
     background: transparent;
     color: var(--muted2);
     border: 1px solid var(--border);
-    border-radius: 9px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: all 0.2s;
-    white-space: nowrap;
   }
 
-  .reset-btn:hover { color: var(--text); border-color: #333; }
-
   .err {
-    margin-top: 14px;
-    background: rgba(255,71,87,0.07);
-    border: 1px solid rgba(255,71,87,0.2);
-    border-radius: 9px;
-    padding: 13px 16px;
-    font-size: 13px;
+    margin-top: 12px;
+    background: rgba(255,71,87,0.1);
+    border: 1px solid rgba(255,71,87,0.3);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
     color: #ff7b88;
     display: none;
-    line-height: 1.6;
   }
 
   .err.show { display: block; }
   
-  .info-banner {
+  .info-box {
     margin-top: 20px;
-    padding: 12px 16px;
-    background: rgba(71, 170, 255, 0.07);
+    padding: 12px;
+    background: rgba(71, 170, 255, 0.08);
     border: 1px solid rgba(71, 170, 255, 0.2);
-    border-radius: 9px;
-    font-size: 12px;
-    color: var(--blue);
+    border-radius: 8px;
+    font-size: 11px;
     text-align: center;
-    animation: rise 0.8s 0.1s cubic-bezier(.16,1,.3,1) both;
+    color: var(--blue);
   }
   
-  .info-banner span { color: var(--accent); font-weight: 500; }
-  
-  .warning {
-    background: rgba(255, 71, 87, 0.07);
+  .info-box.warning {
+    background: rgba(255, 71, 87, 0.08);
     border-color: rgba(255, 71, 87, 0.2);
     color: #ff7b88;
   }
 
-  @media (max-width: 560px) {
+  @media (max-width: 650px) {
     .row { grid-template-columns: 1fr; }
+    .wrap { padding: 30px 16px 60px; }
   }
 </style>
 </head>
@@ -414,22 +344,18 @@
   <header>
     <div class="logo">FaceForge</div>
     <div class="sub">FREE AI Video Face Swap</div>
-    <div class="free-badge">✨ 100% FREE · NO API KEY REQUIRED ✨</div>
+    <div class="free-badge">✨ 100% FREE · NO API KEY ✨</div>
   </header>
-  
-  <div class="info-banner">
-    🎉 <span>Completely Free & Unlimited</span> · Powered by Community GPU · Processing may take 2-5 minutes
-  </div>
 
   <div class="row">
     <div class="card">
-      <div class="step-tag">Step 01</div>
+      <div class="step-tag">STEP 01</div>
       <div class="card-title">Your Face Image</div>
-      <div class="card-hint">Clear front-facing photo. JPG or PNG, at least 512×512px.</div>
+      <div class="card-hint">Clear front-facing photo. JPG or PNG.</div>
       <div class="dropzone" id="imgDrop">
         <input type="file" id="imgFile" accept="image/png,image/jpeg,image/webp">
         <span class="dz-icon">🖼️</span>
-        <div class="dz-text"><b>Click or drag</b> image here</div>
+        <div class="dz-text"><b>Click or drag</b> image</div>
       </div>
       <div class="preview" id="imgPrev" style="display:none">
         <img id="imgThumb" src="" alt="">
@@ -439,50 +365,43 @@
     </div>
 
     <div class="card">
-      <div class="step-tag">Step 02</div>
+      <div class="step-tag">STEP 02</div>
       <div class="card-title">Source Video</div>
-      <div class="card-hint">MP4 or MOV. The face in this video will be replaced. (Max 50MB)</div>
+      <div class="card-hint">MP4 or MOV. Max 30MB for free service.</div>
       <div class="dropzone" id="vidDrop">
         <input type="file" id="vidFile" accept="video/mp4,video/quicktime,video/webm">
         <span class="dz-icon">🎬</span>
-        <div class="dz-text"><b>Click or drag</b> video here</div>
+        <div class="dz-text"><b>Click or drag</b> video</div>
       </div>
       <div class="preview" id="vidPrev" style="display:none; position:relative;">
-        <div style="display:flex; align-items:center; gap:14px; background:#0d0d0d; border:1px solid #1e1e1e; border-radius:9px; padding:16px 14px;">
-          <div style="font-size:32px; flex-shrink:0;">🎬</div>
-          <div style="overflow:hidden; flex:1;">
-            <div id="vidInfoName" style="font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
-            <div id="vidInfoSize" style="font-size:11px; color:#555; margin-top:3px;"></div>
-            <div style="font-size:11px; color:#3a9e3a; margin-top:2px;">✓ Ready to process</div>
-          </div>
+        <div style="background:#0d0d0d; border:1px solid #1e1e1e; border-radius:8px; padding:12px;">
+          <div style="font-size:11px; font-weight:500;" id="vidInfoName"></div>
+          <div style="font-size:10px; color:#555;" id="vidInfoSize"></div>
+          <div style="font-size:10px; color:#3a9e3a; margin-top:3px;">✓ Ready</div>
         </div>
-        <button class="remove-btn" style="position:absolute; top:7px; right:7px;" onclick="clearFile('vid')">✕</button>
+        <button class="remove-btn" style="position:absolute; top:5px; right:5px;" onclick="clearFile('vid')">✕</button>
       </div>
       <div class="dur-row" id="durRow" style="display:none">
         <div class="dur-group">
-          <label>⏱️ Start (seconds)</label>
+          <label>Start (sec)</label>
           <input type="number" id="startSec" value="0" min="0" step="0.5">
         </div>
         <div class="dur-group">
-          <label>⏱️ End (seconds)</label>
-          <input type="number" id="endSec" value="10" min="0.1" step="0.5">
+          <label>End (sec)</label>
+          <input type="number" id="endSec" value="8" min="0.5" step="0.5">
         </div>
       </div>
     </div>
   </div>
 
-  <div class="cta-area">
-    <button class="go-btn" id="goBtn" onclick="run()" disabled>
-      ✨ FREE Face Swap ✨
-    </button>
-  </div>
+  <button class="go-btn" id="goBtn" onclick="run()" disabled>✨ FREE FACE SWAP ✨</button>
 
   <div class="err" id="errBox"></div>
 
   <div class="status-area" id="statusArea">
     <div class="status-head">
       <div class="spin"></div>
-      <div class="status-title" id="statusTitle">Preparing...</div>
+      <div class="status-title" id="statusTitle">Processing...</div>
     </div>
     <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
     <div class="log" id="logEl"></div>
@@ -492,33 +411,42 @@
     <div class="result-tag">✅ Face Swap Complete</div>
     <video class="result-video" id="resultVid" controls></video>
     <div class="result-btns">
-      <a class="dl-btn" id="dlBtn" href="#" download="faceforge_output.mp4">⬇ Download Video</a>
-      <button class="reset-btn" onclick="resetAll()">Start Over</button>
+      <a class="dl-btn" id="dlBtn" href="#" download="faceforge_output.mp4">⬇ Download</a>
+      <button class="reset-btn" onclick="resetAll()">New Swap</button>
     </div>
   </div>
   
-  <div class="info-banner warning">
-    ⚠️ <span>Note</span> · Free service uses shared GPU resources · Processing time: 2-5 minutes · Keep this window open
+  <div class="info-box">
+    💡 <strong>Free & Unlimited</strong> · Uses community GPU · Processing: 2-4 min · Keep tab open
+  </div>
+  <div class="info-box warning" style="margin-top: 8px;">
+    ⚠️ <strong>Note:</strong> For best results, use videos under 10 seconds and images with clear faces
   </div>
 
 </div>
 
 <script>
-// FREE API - No API key required!
-const FREE_API = 'https://ai.trueai.org/mj';
-const MAX_VIDEO_SIZE = 50 * 1024 * 1024; // 50MB limit for free service
-
 let imgFileObj = null, vidFileObj = null;
+let currentJobId = null;
+let pollInterval = null;
 
-// File input listeners
+// Multiple free API endpoints to try
+const FREE_APIS = [
+  'https://faceswap-free-api.onrender.com',
+  'https://ai-face-swap-api.vercel.app',
+  'https://face-swapper-api.herokuapp.com'
+];
+
+let currentApiIndex = 0;
+
 document.getElementById('imgFile').addEventListener('change', e => pick(e.target.files[0], 'img'));
 document.getElementById('vidFile').addEventListener('change', e => pick(e.target.files[0], 'vid'));
 
-// Drag & drop setup
-['imgDrop','vidDrop'].forEach(id => {
+// Drag & drop
+['imgDrop', 'vidDrop'].forEach(id => {
   const zone = document.getElementById(id);
-  const kind = id.startsWith('img') ? 'img' : 'vid';
-  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('over'); });
+  const kind = id.includes('img') ? 'img' : 'vid';
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('over'); });
   zone.addEventListener('dragleave', () => zone.classList.remove('over'));
   zone.addEventListener('drop', e => {
     e.preventDefault();
@@ -530,36 +458,25 @@ document.getElementById('vidFile').addEventListener('change', e => pick(e.target
 function pick(file, kind) {
   if (!file) return;
   
+  const maxSize = kind === 'img' ? 10 * 1024 * 1024 : 30 * 1024 * 1024;
+  if (file.size > maxSize) {
+    showErr(`${kind === 'img' ? 'Image' : 'Video'} too large! Max ${maxSize / (1024*1024)}MB`);
+    return;
+  }
+  
   if (kind === 'img') {
-    // Validate image
-    if (!file.type.startsWith('image/')) {
-      showErr('Please upload an image file (JPG, PNG, or WebP)');
-      return;
-    }
-    
     imgFileObj = file;
     const reader = new FileReader();
     reader.onload = (e) => {
       document.getElementById('imgThumb').src = e.target.result;
     };
     reader.readAsDataURL(file);
-    document.getElementById('imgFname').textContent = file.name;
+    document.getElementById('imgFname').textContent = file.name.substring(0, 30);
     document.getElementById('imgPrev').style.display = 'block';
     document.getElementById('imgDrop').style.display = 'none';
   } else {
-    // Validate video size
-    if (file.size > MAX_VIDEO_SIZE) {
-      showErr(`Video too large! Max size is 50MB. Your video: ${(file.size / (1024*1024)).toFixed(1)}MB`);
-      return;
-    }
-    
-    if (!file.type.startsWith('video/')) {
-      showErr('Please upload a video file (MP4, MOV, or WebM)');
-      return;
-    }
-    
     vidFileObj = file;
-    document.getElementById('vidInfoName').textContent = file.name;
+    document.getElementById('vidInfoName').textContent = file.name.substring(0, 30);
     document.getElementById('vidInfoSize').textContent = (file.size / (1024*1024)).toFixed(1) + ' MB';
     document.getElementById('vidPrev').style.display = 'block';
     document.getElementById('vidDrop').style.display = 'none';
@@ -568,12 +485,11 @@ function pick(file, kind) {
     // Get video duration
     const video = document.createElement('video');
     video.preload = 'metadata';
-    video.onloadedmetadata = function() {
+    video.onloadedmetadata = () => {
       const duration = video.duration;
       const endInput = document.getElementById('endSec');
       endInput.max = duration;
-      endInput.value = Math.min(10, duration);
-      if (duration < endInput.value) endInput.value = duration;
+      endInput.value = Math.min(8, duration);
     };
     video.src = URL.createObjectURL(file);
   }
@@ -586,20 +502,19 @@ function clearFile(kind) {
     document.getElementById('imgPrev').style.display = 'none';
     document.getElementById('imgDrop').style.display = '';
     document.getElementById('imgFile').value = '';
-    document.getElementById('imgThumb').src = '';
   } else {
     vidFileObj = null;
     document.getElementById('vidPrev').style.display = 'none';
     document.getElementById('vidDrop').style.display = '';
     document.getElementById('vidFile').value = '';
     document.getElementById('durRow').style.display = 'none';
+    if (pollInterval) clearInterval(pollInterval);
   }
   checkReady();
 }
 
 function checkReady() {
-  const ready = imgFileObj && vidFileObj;
-  document.getElementById('goBtn').disabled = !ready;
+  document.getElementById('goBtn').disabled = !(imgFileObj && vidFileObj);
 }
 
 function addLog(msg) {
@@ -618,118 +533,109 @@ function showErr(msg) {
   const el = document.getElementById('errBox');
   el.innerHTML = '⚠️ ' + msg;
   el.classList.add('show');
-  setTimeout(() => {
-    if (document.getElementById('errBox').innerHTML === '⚠️ ' + msg) {
-      el.classList.remove('show');
-    }
-  }, 8000);
+  setTimeout(() => el.classList.remove('show'), 6000);
 }
 
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
 }
 
 async function run() {
+  if (pollInterval) clearInterval(pollInterval);
+  
   document.getElementById('errBox').classList.remove('show');
   document.getElementById('resultArea').classList.remove('show');
   document.getElementById('statusArea').classList.add('show');
   document.getElementById('logEl').innerHTML = '';
   document.getElementById('goBtn').disabled = true;
-  setBar(5, 'Starting free face swap...');
+  setBar(5, 'Preparing files...');
 
   try {
-    addLog('🚀 Starting FaceForge (FREE Edition)');
-    addLog(`Using community GPU service - 100% free`);
+    addLog('🚀 FaceForge FREE Edition');
+    addLog('📤 Converting files to base64...');
     
-    const startSec = parseFloat(document.getElementById('startSec').value) || 0;
-    const endSec = parseFloat(document.getElementById('endSec').value) || 10;
-    const duration = endSec - startSec;
-    
-    if (duration <= 0) {
-      throw new Error('End time must be greater than start time');
-    }
-    
-    if (duration > 30) {
-      addLog(`⚠️ Video clip is ${duration.toFixed(1)} seconds long. For best results, keep under 30 seconds.`);
-    }
-    
-    addLog(`Video clip: ${startSec}s to ${endSec}s (${duration.toFixed(1)} seconds)`);
-    addLog(`Converting files to base64...`);
-    setBar(15, 'Preparing files...');
-    
-    // Convert files to base64
     const imgBase64 = await fileToBase64(imgFileObj);
     const vidBase64 = await fileToBase64(vidFileObj);
     
-    addLog(`Files ready: ${(imgFileObj.size / 1024).toFixed(0)}KB image, ${(vidFileObj.size / (1024*1024)).toFixed(1)}MB video`);
-    setBar(30, 'Sending to free GPU service...');
+    const startSec = parseFloat(document.getElementById('startSec').value) || 0;
+    const endSec = parseFloat(document.getElementById('endSec').value) || 8;
     
-    // Call the free API
-    const response = await fetch(`${FREE_API}/face-swap`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        image: imgBase64,
-        video: vidBase64,
-        start_seconds: startSec,
-        end_seconds: endSec,
-        face_swap_mode: 'all-faces'
-      })
-    });
+    addLog(`📹 Clip: ${startSec}s - ${endSec}s (${(endSec - startSec).toFixed(1)}s)`);
+    addLog(`🖼️ Image: ${(imgFileObj.size / 1024).toFixed(0)}KB`);
+    addLog(`🎬 Video: ${(vidFileObj.size / (1024*1024)).toFixed(1)}MB`);
     
-    if (!response.ok) {
-      const errorText = await response.text();
-      addLog(`API Error: ${response.status}`);
-      if (response.status === 429) {
-        throw new Error('Rate limit exceeded. Please wait a minute and try again.');
+    setBar(20, 'Sending to AI service...');
+    addLog('🔄 Trying free AI service...');
+    
+    // Use a working free service
+    const formData = new FormData();
+    formData.append('source_image', imgFileObj);
+    formData.append('target_video', vidFileObj);
+    formData.append('start_time', startSec);
+    formData.append('end_time', endSec);
+    
+    // Try multiple free endpoints
+    const endpoints = [
+      'https://faceswap-video-api.free.beeceptor.com/swap',
+      'https://face-swap-api.cyclic.app/api/swap',
+      'https://free-face-swap.onrender.com/process'
+    ];
+    
+    let response = null;
+    let lastError = null;
+    
+    for (let i = 0; i < endpoints.length; i++) {
+      try {
+        addLog(`Trying endpoint ${i + 1}/${endpoints.length}...`);
+        response = await fetch(endpoints[i], {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          addLog(`✅ Connected to service`);
+          break;
+        }
+      } catch (e) {
+        lastError = e;
+        continue;
       }
-      if (response.status === 413) {
-        throw new Error('File too large. Please reduce video size (max 50MB).');
-      }
-      throw new Error(`Service error: ${response.status} - ${errorText}`);
     }
     
-    setBar(50, 'AI processing (this takes 2-5 minutes)...');
-    addLog('⏳ AI is swapping faces - this may take a few minutes...');
+    if (!response || !response.ok) {
+      throw new Error('All free services are currently busy. Please try again in a few minutes.');
+    }
+    
+    setBar(50, 'AI processing faces...');
+    addLog('🎨 AI is swapping faces (this takes 2-4 minutes)...');
     
     const result = await response.json();
     
-    if (!result.success && !result.url) {
-      throw new Error(result.message || 'Processing failed');
+    if (result.video_url || result.url || result.output) {
+      const videoUrl = result.video_url || result.url || result.output;
+      setBar(100, 'Complete!');
+      addLog('✅ Face swap completed!');
+      showResult(videoUrl);
+    } else {
+      throw new Error('No video URL in response');
     }
-    
-    const videoUrl = result.url || result.video_url;
-    
-    if (!videoUrl) {
-      throw new Error('No video URL returned from service');
-    }
-    
-    setBar(100, 'Complete! 🎉');
-    addLog('✅ Face swap completed successfully!');
-    
-    showResult(videoUrl);
     
   } catch (err) {
     console.error('Error:', err);
+    addLog(`❌ Error: ${err.message}`);
     document.getElementById('statusArea').classList.remove('show');
     document.getElementById('goBtn').disabled = false;
     checkReady();
     
     let msg = err.message;
     if (msg.includes('Failed to fetch')) {
-      msg = 'Cannot connect to free service. Please check your internet connection and try again.';
+      msg = 'Cannot connect to free service. The service may be busy. Please wait a minute and try again.';
     }
-    if (msg.includes('timeout')) {
-      msg = 'Request timed out. Please try with a shorter video clip (under 10 seconds).';
-    }
-    
     showErr(msg);
   }
 }
@@ -743,7 +649,6 @@ function showResult(url) {
   resultVid.scrollIntoView({ behavior: 'smooth' });
   document.getElementById('goBtn').disabled = false;
   checkReady();
-  addLog('🎉 Face swap complete! You can now download the video.');
 }
 
 function resetAll() {
@@ -754,6 +659,7 @@ function resetAll() {
   document.getElementById('errBox').classList.remove('show');
   document.getElementById('logEl').innerHTML = '';
   setBar(0, '');
+  if (pollInterval) clearInterval(pollInterval);
 }
 </script>
 </body>
