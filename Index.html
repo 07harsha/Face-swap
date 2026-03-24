@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FaceForge — AI Video Face Swap</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #101010;
+    --surface2: #161616;
+    --border: #1e1e1e;
+    --accent: #e8ff47;
+    --accent-dim: rgba(232,255,71,0.12);
+    --red: #ff4757;
+    --green: #47ff7b;
+    --text: #efefef;
+    --muted: #4a4a4a;
+    --muted2: #666;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(232,255,71,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 20px 100px;
+  }
+
+  header { text-align: center; margin-bottom: 60px; }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(60px, 12vw, 108px);
+    letter-spacing: 6px;
+    line-height: 1;
+    background: linear-gradient(160deg, #e8ff47 20%, #b8d900 80%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: rise 0.8s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  .sub {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: var(--muted2);
+    animation: rise 0.8s 0.08s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  @keyframes rise {
+    from { opacity:0; transform:translateY(18px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+    animation: rise 0.8s 0.15s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px 24px;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover { border-color: #2a2a2a; }
+
+  .step-tag {
+    display: inline-block;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    background: var(--accent-dim);
+    padding: 3px 10px;
+    border-radius: 100px;
+    margin-bottom: 10px;
+  }
+
+  .card-title { font-size: 17px; font-weight: 500; margin-bottom: 4px; }
+  .card-hint  { font-size: 12px; color: var(--muted2); margin-bottom: 18px; line-height: 1.5; }
+
+  .dropzone {
+    position: relative;
+    border: 1.5px dashed #252525;
+    border-radius: 10px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.01);
+    overflow: hidden;
+  }
+
+  .dropzone:hover,
+  .dropzone.over { border-color: var(--accent); background: var(--accent-dim); }
+
+  .dropzone input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .dz-icon { font-size: 28px; display: block; margin-bottom: 8px; }
+  .dz-text { font-size: 12px; color: var(--muted2); }
+  .dz-text b { color: var(--accent); font-weight: 500; }
+
+  .preview { margin-top: 12px; position: relative; }
+
+  .preview img,
+  .preview video {
+    width: 100%;
+    max-height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    display: block;
+  }
+
+  .remove-btn {
+    position: absolute;
+    top: 7px; right: 7px;
+    background: var(--red);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 24px; height: 24px;
+    cursor: pointer;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .remove-btn:hover { transform: scale(1.1); }
+
+  .fname {
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--muted2);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .dur-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .dur-group label {
+    display: block;
+    font-size: 11px;
+    color: var(--muted2);
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  .dur-group input[type=number] {
+    width: 100%;
+    background: #0d0d0d;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 12px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .dur-group input[type=number]:focus { border-color: var(--accent); }
+
+  .cta-area { animation: rise 0.8s 0.25s cubic-bezier(.16,1,.3,1) both; }
+
+  .go-btn {
+    width: 100%;
+    padding: 19px;
+    background: var(--accent);
+    color: #080808;
+    border: none;
+    border-radius: var(--radius);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .go-btn:hover:not(:disabled) {
+    background: #d9f230;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 36px rgba(232,255,71,0.18);
+  }
+
+  .go-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none !important; }
+
+  .status-area {
+    margin-top: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 26px;
+    display: none;
+  }
+
+  .status-area.show { display: block; animation: rise 0.4s cubic-bezier(.16,1,.3,1) both; }
+
+  .status-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .spin {
+    width: 20px; height: 20px;
+    border: 2.5px solid rgba(232,255,71,0.15);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin 0.75s linear infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .status-title { font-size: 14px; font-weight: 500; }
+
+  .bar-bg {
+    background: #181818;
+    border-radius: 6px;
+    height: 5px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #b8d900);
+    border-radius: 6px;
+    transition: width 0.6s ease;
+    width: 0;
+  }
+
+  .log {
+    font-size: 11.5px;
+    font-family: monospace;
+    color: var(--muted2);
+    max-height: 70px;
+    overflow-y: auto;
+    line-height: 1.9;
+  }
+
+  .result-area {
+    margin-top: 22px;
+    background: var(--surface);
+    border: 1px solid #252525;
+    border-radius: var(--radius);
+    padding: 26px;
+    display: none;
+  }
+
+  .result-area.show { display: block; animation: rise 0.5s cubic-bezier(.16,1,.3,1) both; }
+
+  .result-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .result-video {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+
+  .result-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .dl-btn {
+    flex: 1;
+    display: block;
+    text-align: center;
+    padding: 13px;
+    background: var(--accent);
+    color: #080808;
+    border: none;
+    border-radius: 9px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .dl-btn:hover { background: #d9f230; }
+
+  .reset-btn {
+    padding: 13px 18px;
+    background: transparent;
+    color: var(--muted2);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .reset-btn:hover { color: var(--text); border-color: #333; }
+
+  .err {
+    margin-top: 14px;
+    background: rgba(255,71,87,0.07);
+    border: 1px solid rgba(255,71,87,0.2);
+    border-radius: 9px;
+    padding: 13px 16px;
+    font-size: 13px;
+    color: #ff7b88;
+    display: none;
+    line-height: 1.6;
+  }
+
+  .err.show { display: block; }
+  
+  .api-status {
+    margin-top: 20px;
+    padding: 12px 16px;
+    background: rgba(71, 255, 123, 0.07);
+    border: 1px solid rgba(71, 255, 123, 0.2);
+    border-radius: 9px;
+    font-size: 12px;
+    color: var(--green);
+    text-align: center;
+    animation: rise 0.8s 0.1s cubic-bezier(.16,1,.3,1) both;
+  }
+  
+  .api-status span { color: var(--accent); font-weight: 500; }
+
+  @media (max-width: 560px) {
+    .row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo">FaceForge</div>
+    <div class="sub">AI Video Face Swap · Magic Hour API</div>
+  </header>
+  
+  <div class="api-status">
+    ✅ API Key Ready · <span>Live Production Key</span> · Ready to Generate
+  </div>
+
+  <div class="row">
+    <div class="card">
+      <div class="step-tag">Step 01</div>
+      <div class="card-title">Your Face Image</div>
+      <div class="card-hint">Clear front-facing photo. JPG or PNG, at least 512×512px.</div>
+      <div class="dropzone" id="imgDrop">
+        <input type="file" id="imgFile" accept="image/png,image/jpeg,image/webp">
+        <span class="dz-icon">🖼️</span>
+        <div class="dz-text"><b>Click or drag</b> image here</div>
+      </div>
+      <div class="preview" id="imgPrev" style="display:none">
+        <img id="imgThumb" src="" alt="">
+        <button class="remove-btn" onclick="clearFile('img')">✕</button>
+        <div class="fname" id="imgFname"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="step-tag">Step 02</div>
+      <div class="card-title">Source Video</div>
+      <div class="card-hint">MP4 or MOV. The face in this video will be replaced.</div>
+      <div class="dropzone" id="vidDrop">
+        <input type="file" id="vidFile" accept="video/mp4,video/quicktime,video/webm">
+        <span class="dz-icon">🎬</span>
+        <div class="dz-text"><b>Click or drag</b> video here</div>
+      </div>
+      <div class="preview" id="vidPrev" style="display:none; position:relative;">
+        <div style="display:flex; align-items:center; gap:14px; background:#0d0d0d; border:1px solid #1e1e1e; border-radius:9px; padding:16px 14px;">
+          <div style="font-size:32px; flex-shrink:0;">🎬</div>
+          <div style="overflow:hidden; flex:1;">
+            <div id="vidInfoName" style="font-size:13px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"></div>
+            <div id="vidInfoSize" style="font-size:11px; color:#555; margin-top:3px;"></div>
+            <div style="font-size:11px; color:#3a9e3a; margin-top:2px;">✓ Ready to process</div>
+          </div>
+        </div>
+        <button class="remove-btn" style="position:absolute; top:7px; right:7px;" onclick="clearFile('vid')">✕</button>
+      </div>
+      <div class="dur-row" id="durRow" style="display:none">
+        <div class="dur-group">
+          <label>⏱️ Start (seconds)</label>
+          <input type="number" id="startSec" value="0" min="0" step="0.5">
+        </div>
+        <div class="dur-group">
+          <label>⏱️ End (seconds)</label>
+          <input type="number" id="endSec" value="15" min="0.1" step="0.5">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-area">
+    <button class="go-btn" id="goBtn" onclick="run()" disabled>
+      ⚡ Generate Face Swap
+    </button>
+  </div>
+
+  <div class="err" id="errBox"></div>
+
+  <div class="status-area" id="statusArea">
+    <div class="status-head">
+      <div class="spin"></div>
+      <div class="status-title" id="statusTitle">Preparing...</div>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="barFill"></div></div>
+    <div class="log" id="logEl"></div>
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <div class="result-tag">✅ Face Swap Complete</div>
+    <video class="result-video" id="resultVid" controls></video>
+    <div class="result-btns">
+      <a class="dl-btn" id="dlBtn" href="#" download="faceforge_output.mp4">⬇ Download Video</a>
+      <button class="reset-btn" onclick="resetAll()">Start Over</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// API Key (pre-configured)
+const API_KEY = 'mhk_live_WQSvEbky7t3g3pXENIaY2sBEK8YReFjQqRARqtURBU42HW1wOZf1gI4ZNIAdPQSoTRNqwDJRKnO0prFP';
+const BASE = 'https://api.magichour.ai';
+
+let imgFileObj = null, vidFileObj = null;
+
+// File input listeners
+document.getElementById('imgFile').addEventListener('change', e => pick(e.target.files[0], 'img'));
+document.getElementById('vidFile').addEventListener('change', e => pick(e.target.files[0], 'vid'));
+
+// Drag & drop setup
+['imgDrop','vidDrop'].forEach(id => {
+  const zone = document.getElementById(id);
+  const kind = id.startsWith('img') ? 'img' : 'vid';
+  zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('over'); });
+  zone.addEventListener('dragleave', () => zone.classList.remove('over'));
+  zone.addEventListener('drop', e => {
+    e.preventDefault();
+    zone.classList.remove('over');
+    if (e.dataTransfer.files[0]) pick(e.dataTransfer.files[0], kind);
+  });
+});
+
+function pick(file, kind) {
+  if (!file) return;
+  
+  // File size validation
+  const maxSize = kind === 'img' ? 10 * 1024 * 1024 : 200 * 1024 * 1024;
+  if (file.size > maxSize) {
+    showErr(`${kind === 'img' ? 'Image' : 'Video'} exceeds ${maxSize / (1024 * 1024)}MB limit`);
+    return;
+  }
+  
+  if (kind === 'img') {
+    imgFileObj = file;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      document.getElementById('imgThumb').src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+    document.getElementById('imgFname').textContent = file.name;
+    document.getElementById('imgPrev').style.display = 'block';
+    document.getElementById('imgDrop').style.display = 'none';
+  } else {
+    vidFileObj = file;
+    document.getElementById('vidInfoName').textContent = file.name;
+    document.getElementById('vidInfoSize').textContent = (file.size / (1024*1024)).toFixed(1) + ' MB';
+    document.getElementById('vidPrev').style.display = 'block';
+    document.getElementById('vidDrop').style.display = 'none';
+    document.getElementById('durRow').style.display = 'grid';
+    
+    // Get video duration for max limit
+    const video = document.createElement('video');
+    video.preload = 'metadata';
+    video.onloadedmetadata = function() {
+      const duration = video.duration;
+      const endInput = document.getElementById('endSec');
+      endInput.max = duration;
+      endInput.value = Math.min(15, duration);
+      if (duration < endInput.value) endInput.value = duration;
+    };
+    video.src = URL.createObjectURL(file);
+  }
+  checkReady();
+}
+
+function clearFile(kind) {
+  if (kind === 'img') {
+    imgFileObj = null;
+    document.getElementById('imgPrev').style.display = 'none';
+    document.getElementById('imgDrop').style.display = '';
+    document.getElementById('imgFile').value = '';
+    document.getElementById('imgThumb').src = '';
+  } else {
+    vidFileObj = null;
+    document.getElementById('vidPrev').style.display = 'none';
+    document.getElementById('vidDrop').style.display = '';
+    document.getElementById('vidFile').value = '';
+    document.getElementById('durRow').style.display = 'none';
+  }
+  checkReady();
+}
+
+function checkReady() {
+  const ready = imgFileObj && vidFileObj;
+  document.getElementById('goBtn').disabled = !ready;
+}
+
+function addLog(msg) {
+  const el = document.getElementById('logEl');
+  const time = new Date().toLocaleTimeString();
+  el.innerHTML += `<div>→ [${time}] ${msg}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function setBar(pct, title) {
+  document.getElementById('barFill').style.width = pct + '%';
+  if (title) document.getElementById('statusTitle').textContent = title;
+}
+
+function showErr(msg) {
+  const el = document.getElementById('errBox');
+  el.innerHTML = '⚠️ ' + msg;
+  el.classList.add('show');
+  setTimeout(() => {
+    if (document.getElementById('errBox').innerHTML === '⚠️ ' + msg) {
+      el.classList.remove('show');
+    }
+  }, 8000);
+}
+
+async function uploadFile(file, type) {
+  const ext = file.name.split('.').pop().toLowerCase();
+  
+  addLog(`Requesting upload URL for ${type}...`);
+  
+  const urlRes = await fetch(`${BASE}/v1/files/upload-urls`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${API_KEY}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ items: [{ extension: ext, type }] })
+  });
+
+  if (!urlRes.ok) {
+    const errorText = await urlRes.text();
+    addLog(`Upload URL request failed: ${urlRes.status}`);
+    if (urlRes.status === 401) throw new Error('Invalid API key. Please check your API key.');
+    if (urlRes.status === 402) throw new Error('Insufficient credits. Please add credits at magichour.ai.');
+    if (urlRes.status === 429) throw new Error('Rate limit exceeded. Please wait a moment and try again.');
+    throw new Error(`Upload URL request failed: ${urlRes.status}`);
+  }
+
+  const { items } = await urlRes.json();
+  const { upload_url, file_path } = items[0];
+
+  addLog(`Uploading ${type} (${(file.size / (1024*1024)).toFixed(1)} MB)...`);
+  
+  const putRes = await fetch(upload_url, {
+    method: 'PUT',
+    body: file,
+    headers: { 'Content-Type': file.type || 'application/octet-stream' }
+  });
+
+  if (!putRes.ok) throw new Error(`File upload failed: ${putRes.status}`);
+  
+  addLog(`${type} uploaded successfully ✓`);
+  return file_path;
+}
+
+async function run() {
+  document.getElementById('errBox').classList.remove('show');
+  document.getElementById('resultArea').classList.remove('show');
+  document.getElementById('statusArea').classList.add('show');
+  document.getElementById('logEl').innerHTML = '';
+  document.getElementById('goBtn').disabled = true;
+  setBar(5, 'Starting face swap process...');
+
+  try {
+    addLog('🚀 Starting FaceForge processing');
+    addLog(`Using API: Magic Hour Production`);
+    
+    setBar(10, 'Uploading face image...');
+    const imgPath = await uploadFile(imgFileObj, 'image');
+    setBar(30, 'Uploading source video...');
+
+    const vidPath = await uploadFile(vidFileObj, 'video');
+    setBar(50, 'Creating face swap job...');
+
+    const startSec = parseFloat(document.getElementById('startSec').value) || 0;
+    const endSec   = parseFloat(document.getElementById('endSec').value) || 15;
+    const duration = endSec - startSec;
+    
+    addLog(`Video clip: ${startSec}s to ${endSec}s (${duration.toFixed(1)} seconds)`);
+    addLog(`Creating face swap job...`);
+    
+    const jobRes = await fetch(`${BASE}/v1/face-swap`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        assets: {
+          image_file_path: imgPath,
+          video_file_path: vidPath,
+          video_source: 'file',
+          face_swap_mode: 'all-faces'
+        },
+        start_seconds: startSec,
+        end_seconds: endSec,
+        name: `FaceForge_${Date.now()}`,
+        style: { version: 'default' }
+      })
+    });
+
+    if (!jobRes.ok) {
+      const errorData = await jobRes.json().catch(() => ({}));
+      addLog(`Job creation failed: ${jobRes.status}`);
+      if (jobRes.status === 401) throw new Error('API key validation failed. Please check your API key.');
+      if (jobRes.status === 402) throw new Error('Insufficient credits. Please add credits at magichour.ai.');
+      if (jobRes.status === 422) throw new Error(errorData.message || 'Invalid request. Check your files contain faces.');
+      throw new Error(errorData.message || `Job creation failed`);
+    }
+
+    const { id } = await jobRes.json();
+    addLog(`✅ Job created with ID: ${id}`);
+    addLog(`⏳ Processing video (this may take 1-3 minutes)...`);
+    setBar(60, 'AI is swapping faces...');
+
+    const videoUrl = await pollJob(id);
+    showResult(videoUrl);
+
+  } catch (err) {
+    console.error('Error:', err);
+    document.getElementById('statusArea').classList.remove('show');
+    document.getElementById('goBtn').disabled = false;
+    checkReady();
+    
+    let msg = err.message;
+    if (msg.includes('no_source_face')) msg = '❌ No face detected in your image. Please use a clear front-facing photo with good lighting.';
+    if (msg.includes('no_target_face')) msg = '❌ No face detected in your video. Make sure a face is clearly visible in the video.';
+    if (msg.includes('rate limit')) msg = '⏱️ Rate limit exceeded. Please wait 30 seconds and try again.';
+    if (msg.includes('timeout')) msg = '⏱️ Processing timeout. Try a shorter video clip (under 30 seconds).';
+    
+    showErr(msg);
+  }
+}
+
+async function pollJob(jobId) {
+  const MAX_POLLS = 60;
+  const DELAY = 4000;
+  
+  for (let i = 0; i < MAX_POLLS; i++) {
+    await new Promise(r => setTimeout(r, DELAY));
+    
+    const res = await fetch(`${BASE}/v1/video-projects/${jobId}`, {
+      headers: { 'Authorization': `Bearer ${API_KEY}` }
+    });
+    
+    if (!res.ok) {
+      throw new Error(`Status check failed: ${res.status}`);
+    }
+    
+    const data = await res.json();
+    addLog(`Status: ${data.status}`);
+    
+    if (data.status === 'processing') {
+      const progress = 60 + Math.min(35, Math.floor(i / 1.5));
+      setBar(progress, 'AI is swapping faces...');
+    } else if (data.status === 'complete') {
+      setBar(100, 'Complete! 🎉');
+      const downloads = data.downloads || [];
+      if (!downloads.length) throw new Error('No output URL returned.');
+      addLog(`✅ Face swap completed successfully!`);
+      return downloads[0].url;
+    } else if (data.status === 'error' || data.status === 'failed') {
+      throw new Error(data.error_message || 'Face swap job failed.');
+    }
+  }
+  throw new Error('Processing timeout. Try a shorter video clip (under 30 seconds).');
+}
+
+function showResult(url) {
+  document.getElementById('statusArea').classList.remove('show');
+  const resultVid = document.getElementById('resultVid');
+  resultVid.src = url;
+  document.getElementById('dlBtn').href = url;
+  document.getElementById('resultArea').classList.add('show');
+  resultVid.scrollIntoView({ behavior: 'smooth' });
+  document.getElementById('goBtn').disabled = false;
+  checkReady();
+  addLog('🎉 Face swap complete! You can now download the video.');
+}
+
+function resetAll() {
+  clearFile('img');
+  clearFile('vid');
+  document.getElementById('resultArea').classList.remove('show');
+  document.getElementById('statusArea').classList.remove('show');
+  document.getElementById('errBox').classList.remove('show');
+  document.getElementById('logEl').innerHTML = '';
+  setBar(0, '');
+}
+</script>
+</body>
+</html>
